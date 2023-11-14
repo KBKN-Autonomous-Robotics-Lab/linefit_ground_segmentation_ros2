@@ -98,6 +98,7 @@ void SegmentationNode::scanCallback(
   std::vector<int> labels;
 
   bool is_original_pc = true;
+  RCLCPP_INFO(this->get_logger(), "Gravity aligned frame: %s", gravity_aligned_frame_.c_str());
   if (!gravity_aligned_frame_.empty()) {
     geometry_msgs::msg::TransformStamped tf_stamped;
     try {
@@ -115,6 +116,7 @@ void SegmentationNode::scanCallback(
       // tf::transformMsgToEigen(tf_stamped.transform, tf);
       pcl::transformPointCloud(cloud, cloud_transformed, tf);
       is_original_pc = false;
+      RCLCPP_INFO(this->get_logger(), "Transformed point cloud into gravity frame");
     } catch (tf2::TransformException &ex) {
       RCLCPP_WARN(this->get_logger(),
                   "Failed to transform point cloud into "
